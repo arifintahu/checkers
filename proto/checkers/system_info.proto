@@ -1,0 +1,9 @@
+syntax = "proto3";
+package arifintahu.checkers.checkers;
+
+option go_package = "github.com/arifintahu/checkers/x/checkers/types";
+
+message SystemInfo {
+  uint64 nextId = 1; 
+  
+}
