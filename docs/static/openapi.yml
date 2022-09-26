@@ -30699,6 +30699,8 @@ definitions:
         format: int32
       winner:
         type: string
+  arifintahu.checkers.checkers.MsgRejectGameResponse:
+    type: object
   arifintahu.checkers.checkers.Params:
     type: object
     description: Params defines the parameters for the module.

@@ -72,6 +72,6 @@ func (k msgServer) PlayMove(goCtx context.Context, msg *types.MsgPlayMove) (*typ
 	return &types.MsgPlayMoveResponse{
 		CapturedX: int32(captured.X),
 		CapturedY: int32(captured.Y),
-		Winner: rules.PieceStrings[game.Winner()],
+		Winner:    rules.PieceStrings[game.Winner()],
 	}, nil
 }
