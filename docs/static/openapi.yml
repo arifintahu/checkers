@@ -30688,6 +30688,17 @@ definitions:
     properties:
       gameIndex:
         type: string
+  arifintahu.checkers.checkers.MsgPlayMoveResponse:
+    type: object
+    properties:
+      capturedX:
+        type: integer
+        format: int32
+      capturedY:
+        type: integer
+        format: int32
+      winner:
+        type: string
   arifintahu.checkers.checkers.Params:
     type: object
     description: Params defines the parameters for the module.
