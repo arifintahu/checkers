@@ -4,14 +4,14 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgRejectGame } from "./types/checkers/tx";
 import { MsgCreateGame } from "./types/checkers/tx";
+import { MsgRejectGame } from "./types/checkers/tx";
 import { MsgPlayMove } from "./types/checkers/tx";
 
 
 const types = [
-  ["/arifintahu.checkers.checkers.MsgRejectGame", MsgRejectGame],
   ["/arifintahu.checkers.checkers.MsgCreateGame", MsgCreateGame],
+  ["/arifintahu.checkers.checkers.MsgRejectGame", MsgRejectGame],
   ["/arifintahu.checkers.checkers.MsgPlayMove", MsgPlayMove],
   
 ];
@@ -45,8 +45,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgRejectGame: (data: MsgRejectGame): EncodeObject => ({ typeUrl: "/arifintahu.checkers.checkers.MsgRejectGame", value: MsgRejectGame.fromPartial( data ) }),
     msgCreateGame: (data: MsgCreateGame): EncodeObject => ({ typeUrl: "/arifintahu.checkers.checkers.MsgCreateGame", value: MsgCreateGame.fromPartial( data ) }),
+    msgRejectGame: (data: MsgRejectGame): EncodeObject => ({ typeUrl: "/arifintahu.checkers.checkers.MsgRejectGame", value: MsgRejectGame.fromPartial( data ) }),
     msgPlayMove: (data: MsgPlayMove): EncodeObject => ({ typeUrl: "/arifintahu.checkers.checkers.MsgPlayMove", value: MsgPlayMove.fromPartial( data ) }),
     
   };
