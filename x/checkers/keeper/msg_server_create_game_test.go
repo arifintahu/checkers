@@ -63,6 +63,7 @@ func TestCreate1GameHasSaved(t *testing.T) {
 		BeforeIndex: "-1",
 		AfterIndex: "-1",
 		Deadline:  types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
+		Winner: "*",
 	}, game1)
 }
 
