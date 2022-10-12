@@ -74,6 +74,10 @@ func (storedGame StoredGame) GetWinnerAddress() (address sdk.AccAddress, found b
     return storedGame.GetPlayerAddress(storedGame.Winner)
 }
 
+func (storedGame *StoredGame) GetWagerCoin() (wager sdk.Coin) {
+    return sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(int64(storedGame.Wager)))
+}
+
 func FormatDeadline(deadline time.Time) string {
     return deadline.UTC().Format(DeadlineLayout)
 }
