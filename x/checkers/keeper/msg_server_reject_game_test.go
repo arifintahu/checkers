@@ -5,15 +5,20 @@ import (
 	"testing"
 
 	keepertest "github.com/arifintahu/checkers/testutil/keeper"
+	"github.com/arifintahu/checkers/testutil/mock_types"
 	"github.com/arifintahu/checkers/x/checkers"
 	"github.com/arifintahu/checkers/x/checkers/keeper"
 	"github.com/arifintahu/checkers/x/checkers/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 )
 
-func setupMsgServerWithOneGameForRejectGame(t testing.TB) (types.MsgServer, keeper.Keeper, context.Context) {
-	k, ctx := keepertest.CheckersKeeper(t)
+func setupMsgServerWithOneGameForRejectGame(t testing.TB) (types.MsgServer, keeper.Keeper, context.Context,
+	*gomock.Controller, *mock_types.MockBankEscrowKeeper) {
+	ctrl := gomock.NewController(t)
+	bankMock := mock_types.NewMockBankEscrowKeeper(ctrl)
+	k, ctx := keepertest.CheckersKeeperWithMocks(t, bankMock)
 	checkers.InitGenesis(ctx, *k, *types.DefaultGenesis())
 	server := keeper.NewMsgServerImpl(*k)
 	context := sdk.WrapSDKContext(ctx)
@@ -21,12 +26,16 @@ func setupMsgServerWithOneGameForRejectGame(t testing.TB) (types.MsgServer, keep
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
+		Wager: 45,
 	})
-	return server, *k, context
+	return server, *k, context, ctrl, bankMock
 }
 
 func TestRejectGameByRedOneMoveRemovedGame(t *testing.T) {
-	msgServer, keeper, context := setupMsgServerWithOneGameForRejectGame(t)
+	msgServer, keeper, context, ctrl, escrow := setupMsgServerWithOneGameForRejectGame(t)
+	ctx := sdk.UnwrapSDKContext(context)
+	defer ctrl.Finish()
+	escrow.ExpectAny(context)
 	msgServer.PlayMove(context, &types.MsgPlayMove{
 		Creator:   bob,
 		GameIndex: "1",
@@ -46,6 +55,6 @@ func TestRejectGameByRedOneMoveRemovedGame(t *testing.T) {
 		FifoHeadIndex: "-1",
 		FifoTailIndex: "-1",
 	}, systemInfo)
-	_, found = keeper.GetStoredGame(sdk.UnwrapSDKContext(context), "1")
+	_, found = keeper.GetStoredGame(ctx, "1")
 	require.False(t, found)
 }

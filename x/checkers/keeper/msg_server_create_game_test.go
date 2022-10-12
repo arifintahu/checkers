@@ -30,6 +30,7 @@ func TestCreateGame(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
+		Wager: 45,
 	})
 	require.Nil(t, err)
 	require.EqualValues(t, types.MsgCreateGameResponse{
@@ -44,6 +45,7 @@ func TestCreate1GameHasSaved(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
+		Wager: 45,
 	})
 	systemInfo, found := keeper.GetSystemInfo(sdk.UnwrapSDKContext(context))
 	require.True(t, found)
@@ -64,6 +66,7 @@ func TestCreate1GameHasSaved(t *testing.T) {
 		AfterIndex: "-1",
 		Deadline:  types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
 		Winner: "*",
+		Wager: 45,
 	}, game1)
 }
 
@@ -73,6 +76,7 @@ func TestCreate1GameEmitted(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
+		Wager: 45,
 	})
 	ctx := sdk.UnwrapSDKContext(context)
 	require.NotNil(t, ctx)
@@ -86,6 +90,7 @@ func TestCreate1GameEmitted(t *testing.T) {
 			{Key: "game-index", Value: "1"},
 			{Key: "black", Value: bob},
 			{Key: "red", Value: carol},
+			{Key: "wager", Value: "45"},
 		},
 	}, event)
 }
