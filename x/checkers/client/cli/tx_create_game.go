@@ -21,9 +21,9 @@ func CmdCreateGame() *cobra.Command {
 			argBlack := args[0]
 			argRed := args[1]
 			argWager, err := strconv.ParseUint(args[2], 10, 64)
-            if err != nil {
-                return err
-            }
+			if err != nil {
+				return err
+			}
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {

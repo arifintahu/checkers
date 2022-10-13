@@ -113,7 +113,7 @@ func TestPlayMoveUpToWinner(t *testing.T) {
 		AfterIndex:  "-1",
 		Deadline:    types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
 		Winner:      "b",
-		Wager: 45,
+		Wager:       45,
 	}, game)
 	events := sdk.StringifyEvents(ctx.EventManager().ABCIEvents())
 	require.Len(t, events, 2)
@@ -130,11 +130,11 @@ func TestPlayMoveUpToWinner(t *testing.T) {
 }
 
 func TestPlayMoveUpToWinnerCalledBank(t *testing.T) {
-    msgServer, _, context, ctrl, escrow := setupMsgServerWithOneGameForPlayMove(t)
-    defer ctrl.Finish()
-    payBob := escrow.ExpectPay(context, bob, 45).Times(1)
-    payCarol := escrow.ExpectPay(context, carol, 45).Times(1).After(payBob)
-    escrow.ExpectRefund(context, bob, 90).Times(1).After(payCarol)
+	msgServer, _, context, ctrl, escrow := setupMsgServerWithOneGameForPlayMove(t)
+	defer ctrl.Finish()
+	payBob := escrow.ExpectPay(context, bob, 45).Times(1)
+	payCarol := escrow.ExpectPay(context, carol, 45).Times(1).After(payBob)
+	escrow.ExpectRefund(context, bob, 90).Times(1).After(payCarol)
 
-    playAllMoves(t, msgServer, context, "1", game1Moves)
+	playAllMoves(t, msgServer, context, "1", game1Moves)
 }

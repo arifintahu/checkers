@@ -26,7 +26,7 @@ func setupMsgServerWithOneGameForRejectGame(t testing.TB) (types.MsgServer, keep
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
-		Wager: 45,
+		Wager:   45,
 	})
 	return server, *k, context, ctrl, bankMock
 }
@@ -51,7 +51,7 @@ func TestRejectGameByRedOneMoveRemovedGame(t *testing.T) {
 	systemInfo, found := keeper.GetSystemInfo(sdk.UnwrapSDKContext(context))
 	require.True(t, found)
 	require.EqualValues(t, types.SystemInfo{
-		NextId: 2,
+		NextId:        2,
 		FifoHeadIndex: "-1",
 		FifoTailIndex: "-1",
 	}, systemInfo)
@@ -60,14 +60,14 @@ func TestRejectGameByRedOneMoveRemovedGame(t *testing.T) {
 }
 
 func TestRejectGameByBlackRefundedGas(t *testing.T) {
-    msgServer, _, context, ctrl, _ := setupMsgServerWithOneGameForRejectGame(t)
-    ctx := sdk.UnwrapSDKContext(context)
-    defer ctrl.Finish()
-    before := ctx.GasMeter().GasConsumed()
-    msgServer.RejectGame(context, &types.MsgRejectGame{
-        Creator:   bob,
-        GameIndex: "1",
-    })
-    after := ctx.GasMeter().GasConsumed()
-    require.LessOrEqual(t, after, before-5_000)
+	msgServer, _, context, ctrl, _ := setupMsgServerWithOneGameForRejectGame(t)
+	ctx := sdk.UnwrapSDKContext(context)
+	defer ctrl.Finish()
+	before := ctx.GasMeter().GasConsumed()
+	msgServer.RejectGame(context, &types.MsgRejectGame{
+		Creator:   bob,
+		GameIndex: "1",
+	})
+	after := ctx.GasMeter().GasConsumed()
+	require.LessOrEqual(t, after, before-5_000)
 }

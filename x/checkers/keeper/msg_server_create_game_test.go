@@ -30,7 +30,7 @@ func TestCreateGame(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
-		Wager: 45,
+		Wager:   45,
 	})
 	require.Nil(t, err)
 	require.EqualValues(t, types.MsgCreateGameResponse{
@@ -45,28 +45,28 @@ func TestCreate1GameHasSaved(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
-		Wager: 45,
+		Wager:   45,
 	})
 	systemInfo, found := keeper.GetSystemInfo(sdk.UnwrapSDKContext(context))
 	require.True(t, found)
 	require.EqualValues(t, types.SystemInfo{
-		NextId: 2,
+		NextId:        2,
 		FifoHeadIndex: "1",
 		FifoTailIndex: "1",
 	}, systemInfo)
 	game1, found1 := keeper.GetStoredGame(sdk.UnwrapSDKContext(context), "1")
 	require.True(t, found1)
 	require.EqualValues(t, types.StoredGame{
-		Index: "1",
-		Board: "*b*b*b*b|b*b*b*b*|*b*b*b*b|********|********|r*r*r*r*|*r*r*r*r|r*r*r*r*",
-		Turn:  "b",
-		Black: bob,
-		Red:   carol,
+		Index:       "1",
+		Board:       "*b*b*b*b|b*b*b*b*|*b*b*b*b|********|********|r*r*r*r*|*r*r*r*r|r*r*r*r*",
+		Turn:        "b",
+		Black:       bob,
+		Red:         carol,
 		BeforeIndex: "-1",
-		AfterIndex: "-1",
-		Deadline:  types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
-		Winner: "*",
-		Wager: 45,
+		AfterIndex:  "-1",
+		Deadline:    types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
+		Winner:      "*",
+		Wager:       45,
 	}, game1)
 }
 
@@ -76,7 +76,7 @@ func TestCreate1GameEmitted(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     carol,
-		Wager: 45,
+		Wager:   45,
 	})
 	ctx := sdk.UnwrapSDKContext(context)
 	require.NotNil(t, ctx)
@@ -110,15 +110,15 @@ func TestSavedCreatedDeadlineIsParseable(t *testing.T) {
 }
 
 func TestCreate1GameConsumedGas(t *testing.T) {
-    msgSrvr, _, context := setupMsgServerCreateGame(t)
-    ctx := sdk.UnwrapSDKContext(context)
-    before := ctx.GasMeter().GasConsumed()
-    msgSrvr.CreateGame(context, &types.MsgCreateGame{
-        Creator: alice,
-        Black:   bob,
-        Red:     carol,
-        Wager:   45,
-    })
-    after := ctx.GasMeter().GasConsumed()
-    require.GreaterOrEqual(t, after, before+25_000)
+	msgSrvr, _, context := setupMsgServerCreateGame(t)
+	ctx := sdk.UnwrapSDKContext(context)
+	before := ctx.GasMeter().GasConsumed()
+	msgSrvr.CreateGame(context, &types.MsgCreateGame{
+		Creator: alice,
+		Black:   bob,
+		Red:     carol,
+		Wager:   45,
+	})
+	after := ctx.GasMeter().GasConsumed()
+	require.GreaterOrEqual(t, after, before+25_000)
 }
