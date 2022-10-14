@@ -27,6 +27,7 @@ func setupMsgServerWithOneGameForPlayMove(t testing.TB) (types.MsgServer, keeper
 		Black:   bob,
 		Red:     carol,
 		Wager:   45,
+		Denom:   "stake",
 	})
 	return server, *k, context, ctrl, bankMock
 }
@@ -74,6 +75,7 @@ func TestPlayMoveSameBlackRed(t *testing.T) {
 		Creator: alice,
 		Black:   bob,
 		Red:     bob,
+		Denom:   "stake",
 		Wager:   46,
 	})
 	playMoveResponse, err := msgServer.PlayMove(context, &types.MsgPlayMove{
@@ -126,6 +128,7 @@ func TestPlayMoveSavedGame(t *testing.T) {
 		Deadline:    types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
 		Winner:      "*",
 		Wager:       45,
+		Denom:   "stake",
 	}, game1)
 }
 
@@ -311,6 +314,7 @@ func TestPlayMove2SavedGame(t *testing.T) {
 		Deadline:    types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
 		Winner:      "*",
 		Wager:       45,
+		Denom:   "stake",
 	}, game1)
 }
 
@@ -459,6 +463,7 @@ func TestPlayMove3SavedGame(t *testing.T) {
 		Deadline:    types.FormatDeadline(ctx.BlockTime().Add(types.MaxTurnDuration)),
 		Winner:      "*",
 		Wager:       45,
+		Denom:   "stake",
 	}, game1)
 }
 

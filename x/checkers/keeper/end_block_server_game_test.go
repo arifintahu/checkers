@@ -129,6 +129,7 @@ func TestForfeitPlayedTwice(t *testing.T) {
 		Deadline:    oldDeadline,
 		Winner:      "r",
 		Wager:       45,
+		Denom: "stake",
 	}, game1)
 
 	systemInfo, found := keeper.GetSystemInfo(ctx)

@@ -51,6 +51,7 @@ func TestWagerHandlerCollectFailedNoMove(t *testing.T) {
 		Black:     alice,
 		MoveCount: 0,
 		Wager:     45,
+		Denom:   "stake",
 	})
 	require.NotNil(t, err)
 	require.EqualError(t, err, "black cannot pay the wager: Oops")
@@ -65,6 +66,7 @@ func TestWagerHandlerCollectNoMove(t *testing.T) {
 		Black:     alice,
 		MoveCount: 0,
 		Wager:     45,
+		Denom:   "stake",
 	})
 	require.Nil(t, err)
 }
@@ -89,6 +91,7 @@ func TestWagerHandlerPayWrongEscrowFailed(t *testing.T) {
 		Winner:    "b",
 		MoveCount: 1,
 		Wager:     45,
+		Denom:   "stake",
 	})
 }
 
@@ -103,6 +106,7 @@ func TestWagerHandlerPayEscrowCalledTwoMoves(t *testing.T) {
 		Winner:    "b",
 		MoveCount: 2,
 		Wager:     45,
+		Denom:   "stake",
 	})
 }
 
@@ -161,6 +165,7 @@ func TestWagerHandlerRefundWrongEscrowFailed(t *testing.T) {
 		Black:     alice,
 		MoveCount: 1,
 		Wager:     45,
+		Denom:   "stake",
 	})
 }
 
@@ -173,5 +178,6 @@ func TestWagerHandlerRefundCalled(t *testing.T) {
 		Black:     alice,
 		MoveCount: 1,
 		Wager:     45,
+		Denom:   "stake",
 	})
 }
